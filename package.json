@@ -1,11 +1,10 @@
 {
   "name": "pigeon-registry-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Pigeon's official registry server",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.13.3",
-    "mocha": "^2.3.3"
+    "express": "^4.13.3"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
