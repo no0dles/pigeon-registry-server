@@ -9,3 +9,8 @@ before_script:
   - npm install -g gulp
 
 script: gulp
+
+sudo: required
+
+services:
+  - docker
