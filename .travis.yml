@@ -4,7 +4,29 @@ node_js:
   - "0.12"
   - "0.11"
 
-script: npm test
+env:
+
+before_install:
+
+install:
+  - npm install
+
+before_script:
+
+script:
+  - npm test
+
+after_success:
+
+after_failure:
+
+before_deploy:
+
+deploy:
+
+after_deploy:
+
+after_script:
 
 notifications:
   email: false
