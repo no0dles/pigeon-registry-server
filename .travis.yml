@@ -8,7 +8,7 @@ node_js:
 before_script:
   - npm install -g gulp
 
-script: gulp
+script: test
 
 sudo: required
 
