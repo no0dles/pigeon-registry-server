@@ -29,11 +29,5 @@ after_success:
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - docker push no0dles/pigeon-registry-server
 
-after_failure:
-before_deploy: 
-deploy: 
-after_deploy: 
-after_script: 
-
 notifications:
   email: false
