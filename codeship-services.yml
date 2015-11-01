@@ -1,0 +1,4 @@
+project_name:
+  build:
+    image: no0dles/pigeon-registry-server
+    dockerfile_path: Dockerfile
