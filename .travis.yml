@@ -14,10 +14,11 @@ env:
 
 before_install:
   - docker build -t no0dles/pigeon-registry-server .
-  - docker run no0dles/pigeon-registry-server /bin/sh -c "npm test"
+  - docker run -d -p 3000:80 no0dles/pigeon-registry-server
+  - docker ps
 
 install:
-  - npm install
+  - npm install --dev
 
 script:
   - npm test

@@ -5,7 +5,7 @@ var app = require('../app');
 
 describe('Api', function() {
     it('should return something', function (done) {
-        request(app)
+        request('http://localhost')
             .get('/api')
             .send()
             .expect(200)
