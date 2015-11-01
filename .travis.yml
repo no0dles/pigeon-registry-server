@@ -2,7 +2,6 @@ language: node_js
 
 node_js:
   - "0.12"
-  - "0.11"
 
 sudo: required
 
@@ -18,7 +17,7 @@ before_install:
   - docker ps
 
 install:
-  - npm install --dev
+  - npm install
 
 script:
   - npm test
