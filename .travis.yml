@@ -13,7 +13,7 @@ env:
 
 before_install:
   - docker build -t no0dles/pigeon-registry-server .
-  - docker run -d -p 3000:80 no0dles/pigeon-registry-server
+  - docker run -d -p 80:3000 no0dles/pigeon-registry-server
   - docker ps
 
 install:
