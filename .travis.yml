@@ -9,9 +9,10 @@ services:
 - docker
 
 env:
-  - DOCKER_USERNAME="no0dles"
-  - DOCKER_EMAIL="pascal.bertschi@hsr.ch"
-  - secure: QbZ+iF0247OSYhNnmZs+KwN7J1fQ0mkMDka8Mv97wTxQWEqtNCSuyQWBk9eAeu+Ivg3lxSJRUQrON/QfjgmMy0t9RFIY7XydsvUuOurWbu1tJypXuqz7ENUaK0/HY/enrhF2bMG9CG/UxMheqackSfcGoLXNiL4LU8a5seFadBdGR/DWPDVVeq869vlUnKziT2+fA9qmU4XhiWjQ/wH1EvTlRZFRBxPoUVZqQG5hYHwI6ZDQa8yt5ch5MUFjbzZk/T4e1q96UvUOZSes9uklITvG6rxAUJ7GG/aFexwAYNa7eNCpHi4oMDNr+d8FKzvp07CYpj5UZllHtJC1BUJBgKHpMTVvvw1BBNvijVOn7e35gUvUfqbzcUVsbMmLARTZWKZrnpairYsdcLAdNpFWEfiTsjXkCJl6DzDQaFHoyp48biTMJGaLxZSizBwoO+wKZmWlEgluvjwsCOAz01S9os6YGD/xoDFujfi0CfBMGTH95iTt/4zcV9UCDlclL1LXUbH3LoylXYm7d9FlX1QOujpabM7Sorx+RZ9gyxWdwmZMTtBzkN7+WCRVda8bhy1HF31yBhvAtwH+oXm7scc/D5ln1nP9lHeTwIskO0VCrwa6RMvMUABXQmAh8RZVLUYMwKyySqUvgtVL/EtuQtSP1S6VOYfh72Pi1RXmo9yw9aA=
+  global:
+    - DOCKER_USERNAME="no0dles"
+    - DOCKER_EMAIL="pascal.bertschi@hsr.ch"
+    - secure: dSMmRavqRk8moZ843RQ4zyyC5EHSrMQrG+Qplf4hxE1d9auf25I1Z48oihLSdWYJt0MAQadp/D/sfVMhAKY9qvcEweDzsZIHrHXgWB6MpaG/IfRdGVo/eoc+taJxXzKd9Ne2jAzZVAOQpqFsoTMig00/Ledmu8cQxH89t9cbAoOwdAE8JXlHnqnxr1d71yn85VO0pd1SOSyM0o7J9kTAvjau/bIwuZS1eZCuMmMNzR2DcvPgowgk7D8adxGgDYsAFPDMZWLtr0Caz0mHawXXr6KaiZh1YEvjnvAOHiCNP8ukozuEZJ0ytPLdGe/qf9DYNCwBkg3GiAg081pBT/eS7mfiM8245JtE8/D2dNrKNl2Q2H1y8jKProppl3YLlipHJx5rSjWPJxiUrtcpphJpxM2AvDC0Rrsf2qn9R/Ue7N2670oQuU0u3hQ8QjHnaS5NM9/OO8JHjHVc3iJCh/OdmPgrD/HJ+/i9qnxNCJm1jgfLVC6rwhLaVC/H8oAiunw3O2JCuVrXeFjhsafUmNdLjUSmtZYEmT22eD7dhVCStaxcVvlr7I/w9P3e04E4ya+xWglULyCZ6y7Pq5SATLBtefi8BWOP1LdPSZW9XU7GEZLkeu1P9S6oKIV+vF0JmW1nPn5oKMpQ6h2uNFK9YMvi1K4aw6J0boe+7OdO/r+s7k0=
 
 before_install:
 - docker build -t no0dles/pigeon-registry-server .
@@ -32,7 +33,7 @@ after_failure:
 before_deploy: 
 deploy: 
 after_deploy: 
-after_script:
+after_script: 
 
 notifications:
   email: false
