@@ -1,0 +1,5 @@
+- name: ci
+  type: serial
+  steps:
+  - service: pigeon-registry-server
+    command: npm run-script test
