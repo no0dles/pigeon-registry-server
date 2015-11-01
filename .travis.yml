@@ -1,37 +1,35 @@
 language: node_js
 
 node_js:
-  - "0.12"
+- '0.12'
 
 sudo: required
 
 services:
-  - docker
+- docker
 
 env:
-  DOCKER_COMPOSE_VERSION: 1.4.2
+  secure: QbZ+iF0247OSYhNnmZs+KwN7J1fQ0mkMDka8Mv97wTxQWEqtNCSuyQWBk9eAeu+Ivg3lxSJRUQrON/QfjgmMy0t9RFIY7XydsvUuOurWbu1tJypXuqz7ENUaK0/HY/enrhF2bMG9CG/UxMheqackSfcGoLXNiL4LU8a5seFadBdGR/DWPDVVeq869vlUnKziT2+fA9qmU4XhiWjQ/wH1EvTlRZFRBxPoUVZqQG5hYHwI6ZDQa8yt5ch5MUFjbzZk/T4e1q96UvUOZSes9uklITvG6rxAUJ7GG/aFexwAYNa7eNCpHi4oMDNr+d8FKzvp07CYpj5UZllHtJC1BUJBgKHpMTVvvw1BBNvijVOn7e35gUvUfqbzcUVsbMmLARTZWKZrnpairYsdcLAdNpFWEfiTsjXkCJl6DzDQaFHoyp48biTMJGaLxZSizBwoO+wKZmWlEgluvjwsCOAz01S9os6YGD/xoDFujfi0CfBMGTH95iTt/4zcV9UCDlclL1LXUbH3LoylXYm7d9FlX1QOujpabM7Sorx+RZ9gyxWdwmZMTtBzkN7+WCRVda8bhy1HF31yBhvAtwH+oXm7scc/D5ln1nP9lHeTwIskO0VCrwa6RMvMUABXQmAh8RZVLUYMwKyySqUvgtVL/EtuQtSP1S6VOYfh72Pi1RXmo9yw9aA=
 
 before_install:
-  - docker build -t no0dles/pigeon-registry-server .
-  - docker run -d -p 80:3000 no0dles/pigeon-registry-server
-  - docker ps
+- docker build -t no0dles/pigeon-registry-server .
+- docker run -d -p 80:3000 no0dles/pigeon-registry-server
+- docker ps
 
 install:
-  - npm install
+- npm install
 
 script:
-  - npm test
+- npm test
 
 after_success:
+- docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker push no0dles/pigeon-registry-server
 
 after_failure:
-
-before_deploy:
-
-deploy:
-
-after_deploy:
-
+before_deploy: 
+deploy: 
+after_deploy: 
 after_script:
 
 notifications:
