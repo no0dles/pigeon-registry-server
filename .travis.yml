@@ -13,8 +13,8 @@ env:
   DOCKER_COMPOSE_VERSION: 1.4.2
 
 before_install:
-  docker build -t no0dles/pigeon-registry-server .
-  docker run no0dles/pigeon-registry-server /bin/sh -c "npm test"
+  - docker build -t no0dles/pigeon-registry-server .
+  - docker run no0dles/pigeon-registry-server /bin/sh -c "npm test"
 
 install:
   - npm install
