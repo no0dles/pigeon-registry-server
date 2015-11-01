@@ -4,7 +4,8 @@
   "description": "Pigeon's official registry server",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "thinky": "^2.1.11"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
@@ -15,6 +16,22 @@
   "scripts": {
     "test": "mocha"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "pascal",
+  "license": "MIT",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/no0dles/pigeon-registry-server.git"
+  },
+  "keywords": [
+    "pigeon",
+    "server",
+    "registry"
+  ],
+  "bugs": {
+    "url": "https://github.com/no0dles/pigeon-registry-server/issues"
+  },
+  "homepage": "https://github.com/no0dles/pigeon-registry-server#readme"
 }

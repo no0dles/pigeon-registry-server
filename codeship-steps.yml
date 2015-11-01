@@ -1,5 +1,0 @@
-- name: ci
-  type: serial
-  steps:
-  - service: server
-    command: npm run-script test
