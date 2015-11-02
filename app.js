@@ -1,38 +1,23 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var validator = require('express-validator');
+var config = require('config');
+
+var routes = require('./routes');
+
 var app = express();
 
-var thinky = require('thinky');
+app.set('port', config.get('web_port'));
 
-var db = thinky({
-    db: "pigeon",
-    host: "db"
-});
-
-var Post = db.createModel("Post", {
-    id: String,
-    title: String,
-    content: String
-});
-
-var router = express.Router();
-
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
-});
-
-app.get('/', function (req, res, next) {
-    Post.get('test')
-        .then(function (user) {
-            res.json(user);
-        })
-        .catch(db.Errors.DocumentNotFound, function() {
-            res.sendStatus(404);
-        })
-        .error(function(error) {
-            next(error);
-        });
-});
-
-app.use('/api', router);
+app.use(bodyParser.json());
+app.use(validator({
+    errorFormatter: function (param, msg, value) {
+        return {
+            param : param,
+            code   : msg
+        };
+    }
+}));
+app.use('/api/users', routes);
 
 module.exports = app;
