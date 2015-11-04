@@ -1,59 +1,34 @@
 var moment = require('moment');
 
-function getErrorCode(namespace, fieldname) {
-    return namespace + '.' + fieldname
-}
+var validator = require('./validator');
+var errors = require('./errors');
 
-function check(opts) {
-    return function (req, res, next) {
-        for(var field in opts) {
-            var regex = opts[field];
+module.exports.signature = function(req, res, next) {
+  if(!validator.isDefined(req.body.date))
+    return next(new errors.ParamError('missing.date'));
 
-            req.check(field, getErrorCode('missing', field)).notEmpty();
+  if(!validator.isDefined(req.body.validity))
+    return next(new errors.ParamError('missing.validity'));
 
-            if(regex) {
-                req.check(field, getErrorCode('invalid', field)).matches(regex);
-            }
-        }
+  if(!validator.isDefined(req.body.signature))
+    return next(new errors.ParamError('missing.signature'));
 
-        var errors = req.validationErrors();
-        if (errors) {
-            return res.status(400).json({
-                errors: errors
-            });
-        }
+  if(!validator.matches(req.body.date, /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}/))
+    return next(new errors.ParamError('unknown.date'));
 
-        next();
-    }
-}
+  if(!validator.isInt(req.body.validity))
+    return next(new errors.ParamError('invalid.validity'));
 
-function signature(req, res, next) {
-    return check({
-        'signature': null,
-        'date': /(Mon|Tue|...|Sun)\s(Jan|Feb|...|Dec)\s\d{2}\s\d{4}\s\d{2}:\d{2}:\d{2}\sGMT\+\d{2}:\d{2}/
-    })(req, res, function () {
+  var date = moment(req.body.date);
 
-        var now = moment().utc();
-        var date = moment(req.body.date, 'ddd MMM YYYY HH:mm:ss GMTZZ');
+  if(!date.isValid())
+    return next(new errors.ParamError('invalid.date'));
 
-        console.log(now);
-        console.log(date);
+  if(Math.abs(moment().utc().diff(date, 'seconds')) > req.body.validity)
+    return next(new errors.ParamError('expired.date'));
 
-        console.log(Math.abs(moment().utc().diff(moment(req.body.date, 'ddd MMM YYYY HH:mm:ss GMTZZ'), 'minutes')));
-        if(Math.abs(moment().utc().diff(moment(req.body.date, 'ddd MMM YYYY HH:mm:ss GMTZZ'), 'minutes')) > 10) {
+  if(!validator.isSigned(req.body.signature, req.body))
+    return next(new errors.ParamError('invalid.signature'));
 
-            return res.status(400).json({
-                errors: [
-                    { code: 'expired.date', param: 'date' }
-                ]
-            });
-        }
-
-        next();
-    });
-};
-
-module.exports = {
-    check: check,
-    signature: signature
+  return next();
 };

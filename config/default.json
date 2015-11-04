@@ -1,4 +1,34 @@
 {
-  "db_name": "pigeon",
-  "web_port": 3000
+  "rethinkdb": {
+    "name": "pigeon"
+  },
+  "express": {
+    "port": 3000
+  },
+  "signature": {
+    "algorithm": "RSA-SHA256"
+  },
+  "avatar": {
+    "eyes": [
+      "eyes1", "eyes2", "eyes3",
+      "eyes4", "eyes5", "eyes6",
+      "eyes7", "eyes9", "eyes10"
+    ],
+    "nose": [
+      "nose2", "nose3", "nose4",
+      "nose5", "nose6", "nose7",
+      "nose8", "nose9"
+    ],
+    "mouth": [
+      "mouth1", "mouth3", "mouth5",
+      "mouth6", "mouth7", "mouth9",
+      "mouth10", "mouth11"
+    ],
+    "color": [
+      "#DA4453", "#E9573F", "#F6BB42",
+      "#8CC152", "#37BC9B", "#3BAFDA",
+      "#4A89DC", "#967ADC", "#D770AD",
+      "#E6E9ED", "#AAB2BD"
+    ]
+  }
 }

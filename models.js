@@ -1,12 +1,12 @@
 var config = require('config');
 var thinky = require('thinky')({
-    db: config.get('db_name'),
-    host: config.get('db_host')
+    db: config.get('rethinkdb.name'),
+    host: config.get('rethinkdb.host')
 });
 
 var type = thinky.type;
 
-var User = thinky.createModel("User", {
+module.exports.User = thinky.createModel("User", {
     username: type.string(),
     avatar: {
         eyes: type.string(),
@@ -15,13 +15,11 @@ var User = thinky.createModel("User", {
         color: type.string()
     },
     key: type.string(),
-    signature: type.buffer(),
-    date: type.date()
+    signature: type.string(),
+    date: type.date(),
+    validity: type.number()
 }, {
     pk: "username"
 });
 
-module.exports = {
-    User: User,
-    Errors: thinky.Errors
-};
+module.exports.Errors = thinky.Errors;

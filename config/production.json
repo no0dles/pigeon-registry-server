@@ -1,3 +1,5 @@
 {
-  "db_host": "db"
+  "rethinkdb": {
+    "host": "db"
+  }
 }

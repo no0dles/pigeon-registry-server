@@ -4,10 +4,13 @@
   "description": "Pigeon's official registry server",
   "main": "index.js",
   "dependencies": {
+    "bluebird": "^3.0.5",
+    "clone": "^1.0.2",
     "config": "^1.16.0",
     "express": "^4.13.3",
-    "express-validator": "^2.18.0",
-    "thinky": "^2.1.11"
+    "thinky": "git+https://git@github.com/no0dles/thinky.git",
+    "ursa": "^0.9.1",
+    "validator": "^4.2.1"
   },
   "devDependencies": {
     "body-parser": "^1.14.1",
