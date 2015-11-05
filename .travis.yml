@@ -10,7 +10,7 @@ services:
 
 env:
   global:
-    - NODE_ENV=production
+    - NODE_ENV=development
     - DOCKER_USERNAME="no0dles"
     - DOCKER_EMAIL="pascal.bertschi@hsr.ch"
     - secure: dSMmRavqRk8moZ843RQ4zyyC5EHSrMQrG+Qplf4hxE1d9auf25I1Z48oihLSdWYJt0MAQadp/D/sfVMhAKY9qvcEweDzsZIHrHXgWB6MpaG/IfRdGVo/eoc+taJxXzKd9Ne2jAzZVAOQpqFsoTMig00/Ledmu8cQxH89t9cbAoOwdAE8JXlHnqnxr1d71yn85VO0pd1SOSyM0o7J9kTAvjau/bIwuZS1eZCuMmMNzR2DcvPgowgk7D8adxGgDYsAFPDMZWLtr0Caz0mHawXXr6KaiZh1YEvjnvAOHiCNP8ukozuEZJ0ytPLdGe/qf9DYNCwBkg3GiAg081pBT/eS7mfiM8245JtE8/D2dNrKNl2Q2H1y8jKProppl3YLlipHJx5rSjWPJxiUrtcpphJpxM2AvDC0Rrsf2qn9R/Ue7N2670oQuU0u3hQ8QjHnaS5NM9/OO8JHjHVc3iJCh/OdmPgrD/HJ+/i9qnxNCJm1jgfLVC6rwhLaVC/H8oAiunw3O2JCuVrXeFjhsafUmNdLjUSmtZYEmT22eD7dhVCStaxcVvlr7I/w9P3e04E4ya+xWglULyCZ6y7Pq5SATLBtefi8BWOP1LdPSZW9XU7GEZLkeu1P9S6oKIV+vF0JmW1nPn5oKMpQ6h2uNFK9YMvi1K4aw6J0boe+7OdO/r+s7k0=
