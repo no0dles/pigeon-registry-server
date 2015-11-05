@@ -1,5 +1,8 @@
 {
   "rethinkdb": {
     "host": "localhost"
+  },
+  "test": {
+   "app": true
   }
 }

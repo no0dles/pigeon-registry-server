@@ -88,9 +88,17 @@ function signRequest(req, key) {
 
 module.exports.signRequest = signRequest;
 
+function getRequest() {
+  if(config.get('test.app')) {
+    return request(app);
+  } else {
+    return request(config.get('test.url'));
+  }
+}
+
 module.exports.createUser = function (body) {
   return promiseRequest(
-    request(app)
+    getRequest()
       .post('/api/users/')
       .send(body)
   );
@@ -98,7 +106,7 @@ module.exports.createUser = function (body) {
 
 module.exports.getUser = function (username) {
   return promiseRequest(
-    request(app)
+    getRequest()
       .get('/api/users?username=' + username)
       .send()
   );
