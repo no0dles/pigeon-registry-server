@@ -18,6 +18,7 @@ env:
 before_install:
 - npm install --production
 - docker-compose up -d
+- sleep 5
 - docker ps
 
 install:
