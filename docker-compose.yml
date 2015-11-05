@@ -7,3 +7,5 @@ web:
 
 db:
   image: rethinkdb
+  ports:
+    - "8080:8080"
