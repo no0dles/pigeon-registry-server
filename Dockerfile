@@ -8,7 +8,7 @@ COPY . /src
 WORKDIR /src
 
 # Install app dependencies
-RUN cd /src; npm install --production
+RUN cd /src;
 
 EXPOSE  3000
 
