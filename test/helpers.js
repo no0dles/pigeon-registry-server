@@ -77,7 +77,11 @@ module.exports.deleteAllDbUsers = function () {
       promises.push(result[i].delete());
     }
 
-    return Promise.all(promises);
+    if(promises.length > 0) {
+      return Promise.all(promises);
+    } else {
+      return Promise.resolve();
+    }
   })
 };
 
