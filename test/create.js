@@ -10,31 +10,93 @@ describe('create', function () {
       });
   });
 
-  it('dummy user', function (done) {
-    helpers.createUser(helpers.dummyUser())
-      .then(function(res) {
-        assert(res.statusCode == 201);
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
+  describe('user', function () {
+    it('dummy', function (done) {
+      helpers.createUser(helpers.dummyUser())
+        .then(function(res) {
+          assert(res.statusCode == 201);
+          done();
+        })
+        .catch(function (err) {
+          done(err);
+        });
+    })
   });
 
-  it('unique username', function (done) {
-    helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
-      .then(function(res) {
-        assert(res.statusCode == 201, '[1] ' + res.statusCode + ' statusCode ');
-
-        return helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
+  describe('username', function () {
+    describe('invalid', function () {
+      it('existing', function () {
+        helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
           .then(function(res) {
-            assert(res.statusCode == 400, '[2] ' + res.statusCode + ' statusCode ');
+            assert(res.statusCode == 201, '[1] ' + res.statusCode + ' statusCode ');
 
-            done();
+            return helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
+              .then(function(res) {
+                assert(res.statusCode == 400, '[2] ' + res.statusCode + ' statusCode ');
+
+                done();
+              });
+          })
+          .catch(function (err) {
+            done(err);
           });
-      })
-      .catch(function (err) {
-        done(err);
       });
+
+      it('unhashed', function () {
+        //TODO
+      });
+
+      it('special characters', function () {
+        //TODO
+      });
+
+      it('integer value', function () {
+        //TODO
+      });
+
+      it('boolean value', function () {
+        //TODO
+      });
+    });
+  });
+
+  describe('key', function () {
+    describe('invalid', function () {
+      it('private key', function () {
+        //TODO
+      });
+
+      it('random string value', function () {
+        //TODO
+      });
+
+      it('integer value', function () {
+        //TODO
+      });
+
+      it('boolean value', function () {
+        //TODO
+      });
+    });
+
+    it('512 bit key', function () {
+      //TODO
+    });
+
+    it('1024 bit key', function () {
+      //TODO
+    });
+
+    it('2048 bit key', function () {
+      //TODO
+    });
+
+    it('4096 bit key', function () {
+      //TODO
+    });
+
+    it('8192 bit key', function () {
+      //TODO
+    });
   });
 });

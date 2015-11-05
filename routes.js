@@ -106,6 +106,9 @@ router.put('/', function (req, res, next) {
         res.status(201).send();
       });
     })
+    .catch(models.Errors.DocumentNotFound, function () {
+      res.sendStatus(404);
+    })
     .error(function (error) {
       next(error);
     });
