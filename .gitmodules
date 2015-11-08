@@ -1,4 +1,0 @@
-[submodule "docs"]
-	path = docs
-	url = https://github.com/no0dles/pigeon-registry-server.git
-	branch = gh-pages
