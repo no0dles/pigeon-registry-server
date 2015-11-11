@@ -45,7 +45,7 @@ describe('search', function () {
       });
   });
 
-  it('valid existing', function () {
+  it('valid existing', function (done) {
     helpers.getUser(helpers.sha1('bar'))
       .then(function (res) {
         assert(res.statusCode == 200, res.statusCode + ' status');

@@ -1,3 +1,3 @@
-# pigeon-registry-server
+The OpenShift `nodejs` cartridge documentation can be found at:
 
-[![Build Status](https://travis-ci.org/no0dles/pigeon-registry-server.svg)](https://travis-ci.org/no0dles/pigeon-registry-server)
+http://openshift.github.io/documentation/oo_cartridge_guide.html#nodejs
