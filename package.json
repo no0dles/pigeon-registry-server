@@ -5,12 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.0.5",
+    "body-parser": "^1.14.1",
     "clone": "^1.0.2",
     "config": "^1.16.0",
-    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "moment": "^2.10.6",
-    "thinky": "git+https://git@github.com/no0dles/thinky.git",
+    "redis": "^2.3.0",
     "ursa": "^0.9.1",
     "validator": "^4.2.1"
   },

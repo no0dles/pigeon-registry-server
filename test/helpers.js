@@ -3,9 +3,9 @@ var ursa = require('ursa');
 var config = require('config');
 var moment = require('moment');
 var request = require('supertest');
-var models = require('../models');
 
 var app = require('../app');
+var database = require('../database');
 
 function generateKey(keySize) {
   var keys = ursa.generatePrivateKey(keySize || 1024);
@@ -62,27 +62,15 @@ module.exports.dummyUser = function (username, key, eyes, nose, mouth, color, va
 };
 
 module.exports.createDbUser = function (user) {
-  return new models.User(user).save();
+  return database.set(user.username, JSON.stringify(user));
 };
 
 module.exports.deleteDbUser = function (username) {
-  return models.User.get(username).delete();
+  return database.del(username);
 };
 
 module.exports.deleteAllDbUsers = function () {
-  return models.User.run().then(function (result) {
-    var promises = [];
-
-    for(var i = 0; i < result.length; i++) {
-      promises.push(result[i].delete());
-    }
-
-    if(promises.length > 0) {
-      return Promise.all(promises);
-    } else {
-      return Promise.resolve();
-    }
-  })
+  return database.flushdb();
 };
 
 function signRequest(req, key) {
@@ -92,17 +80,9 @@ function signRequest(req, key) {
 
 module.exports.signRequest = signRequest;
 
-function getRequest() {
-  if(config.get('test.app')) {
-    return request(app);
-  } else {
-    return request(config.get('test.url'));
-  }
-}
-
 module.exports.createUser = function (body) {
   return promiseRequest(
-    getRequest()
+    request(app)
       .post('/api/users/')
       .send(body)
   );
@@ -110,7 +90,7 @@ module.exports.createUser = function (body) {
 
 module.exports.getUser = function (username) {
   return promiseRequest(
-    getRequest()
+    request(app)
       .get('/api/users?username=' + username)
       .send()
   );

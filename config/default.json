@@ -1,8 +1,11 @@
 {
-  "rethinkdb": {
-    "name": "pigeon"
+  "redis": {
+    "host": "localhost",
+    "port": "6379",
+    "auth": null
   },
   "express": {
+    "address": "localhost",
     "port": 3000
   },
   "signature": {

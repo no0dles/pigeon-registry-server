@@ -1,9 +1,0 @@
-{
-  "rethinkdb": {
-    "host": "db"
-  },
-  "test": {
-    "app": false,
-    "url": "http://localhost:3000"
-  }
-}

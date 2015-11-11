@@ -1,7 +1,6 @@
 var assert = require('assert');
 var helpers = require('./helpers');
 
-
 describe('create', function () {
   beforeEach(function (done) {
     helpers.deleteAllDbUsers()
@@ -10,38 +9,39 @@ describe('create', function () {
       });
   });
 
-  describe('user', function () {
-    it('dummy', function (done) {
-      helpers.createUser(helpers.dummyUser())
-        .then(function(res) {
-          assert(res.statusCode == 201);
-          done();
-        })
-        .catch(function (err) {
-          done(err);
-        });
-    })
+  it('dummy user', function (done) {
+    helpers.createUser(helpers.dummyUser())
+      .then(function(res) {
+        assert(!res.body.code, res.body.code + ' code');
+        assert(res.statusCode == 201, res.statusCode + ' statusCode ');
+
+        done();
+      })
+      .catch(function (err) {
+        done(err);
+      });
   });
 
+  it('invalid existing username', function (done) {
+    helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
+      .then(function(res) {
+        assert(res.statusCode == 201, '[1] ' + res.statusCode + ' statusCode ');
+
+        return helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
+          .then(function(res) {
+            assert(res.statusCode == 400, '[2] ' + res.statusCode + ' statusCode ');
+
+            done();
+          });
+      })
+      .catch(function (err) {
+        done(err);
+      });
+  });
+
+  /*
   describe('username', function () {
     describe('invalid', function () {
-      it('existing', function () {
-        helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
-          .then(function(res) {
-            assert(res.statusCode == 201, '[1] ' + res.statusCode + ' statusCode ');
-
-            return helpers.createUser(helpers.dummyUser(helpers.sha1('foo')))
-              .then(function(res) {
-                assert(res.statusCode == 400, '[2] ' + res.statusCode + ' statusCode ');
-
-                done();
-              });
-          })
-          .catch(function (err) {
-            done(err);
-          });
-      });
-
       it('unhashed', function () {
         //TODO
       });
@@ -98,5 +98,5 @@ describe('create', function () {
     it('8192 bit key', function () {
       //TODO
     });
-  });
+  });*/
 });

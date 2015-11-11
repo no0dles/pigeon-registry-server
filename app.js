@@ -7,7 +7,8 @@ var errors = require('./errors');
 
 var app = express();
 
-app.set('port', config.get('express.port'));
+app.set('address', process.env['OPENSHIFT_NODEJS_IP'] || config.get('express.address'));
+app.set('port', process.env['OPENSHIFT_NODEJS_PORT'] || config.get('express.port'));
 
 app.use(bodyParser.json());
 
@@ -20,6 +21,8 @@ app.use(function(err, req, res, next) {
         });
     } else {
         console.log(err);
+        console.log(err.stack);
+
         res.status(500).json({
            code: 'server.error'
         });

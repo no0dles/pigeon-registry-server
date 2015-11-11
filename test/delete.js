@@ -1,6 +1,7 @@
 var assert = require('assert');
 var helpers = require('./helpers');
 
+/*
 describe('delete', function () {
   describe('user', function () {
     it('existing', function () {
@@ -11,4 +12,4 @@ describe('delete', function () {
       //TODO
     });
   });
-});
+});*/

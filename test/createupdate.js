@@ -1,7 +1,7 @@
 var assert = require('assert');
 var helpers = require('./helpers');
 
-
+/*
 describe('create or update', function () {
   describe('username', function () {
     it('without', function () {
@@ -186,4 +186,4 @@ describe('create or update', function () {
       });
     });
   });
-});
+});*/
