@@ -13,7 +13,7 @@ router.get('/', middlewares.checkUsername, function (req, res, next) {
   db.get(req.query.username)
     .then(function (user) {
       if(user) {
-        res.send(user);
+        res.json(user);
       } else {
         res.status(404).end();
       }
