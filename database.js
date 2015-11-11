@@ -1,5 +1,6 @@
 var config = require('config');
 var redis = require('redis');
+var Promise = require('bluebird');
 
 var client = redis.createClient({
   host: process.env['OPENSHIFT_REDIS_DB_HOST'] || config.get('redis.host'),

@@ -3,6 +3,7 @@ var ursa = require('ursa');
 var config = require('config');
 var moment = require('moment');
 var request = require('supertest');
+var Promise = require('bluebird');
 
 var app = require('../app');
 var database = require('../database');
