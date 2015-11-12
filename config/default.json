@@ -4,6 +4,9 @@
     "port": "6379",
     "auth": null
   },
+  "logentries": {
+    "token": null
+  },
   "express": {
     "address": "localhost",
     "port": 3000

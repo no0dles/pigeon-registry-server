@@ -14,7 +14,7 @@ var logger = new winston.Logger({
   exitOnError: false
 });
 
-var token = process.env.LE_TOKEN || config.get('LE_TOKEN');
+var token = process.env.LE_TOKEN || config.get('logentries.token');
 if(token) {
   logger.transports.add(
     new winston.transports.Logentries({
