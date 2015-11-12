@@ -4,9 +4,6 @@ var config = require('config');
 
 var logger = new winston.Logger({
   transports: [
-    new winston.transports.Logentries({
-      token: process.env.LE_TOKEN || config.get('LE_TOKEN')
-    }),
     new winston.transports.Console({
       level: 'debug',
       handleExceptions: true,
@@ -16,6 +13,15 @@ var logger = new winston.Logger({
   ],
   exitOnError: false
 });
+
+var token = process.env.LE_TOKEN || config.get('LE_TOKEN');
+if(token) {
+  logger.transports.add(
+    new winston.transports.Logentries({
+      token: token
+    })
+  );
+}
 
 logger.stream = {
   write: function(message, encoding){
