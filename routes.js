@@ -1,9 +1,7 @@
 var express = require('express');
-var config = require('config');
 var moment = require('moment');
 
 var middlewares = require('./middlewares');
-var validator = require('./validator');
 var errors = require('./errors');
 var db = require('./database');
 
@@ -38,6 +36,8 @@ router.delete('/', function (req, res, next) {
         next(new errors.ParamError('wrong.key'));
         return;
       }
+
+      //TODO: add delete flag
 
       return db.del(req.body.username)
         .then(function () {

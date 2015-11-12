@@ -1,68 +1,42 @@
-var assert = require('assert');
 var helpers = require('./helpers');
+var database = require('../database');
 
 describe('search', function () {
-  before(function (done) {
-    helpers.deleteAllDbUsers()
-      .then(function () {
-        var user = helpers.dummyUser(helpers.sha1('bar'))
-        return helpers.createDbUser(user);
-      })
-      .then(function () {
-        done();
-      })
-      .catch(function (err) {
-        done(err)
-      });
-  });
 
-  after(function (done) {
-    helpers.deleteAllDbUsers()
-      .then(function () {
-        done();
-      });
+  before(function (done) {
+    database.flushdb().then(function () {
+      return helpers.createDbUser(helpers.dummyUser(helpers.sha1('bar')));
+    }).then(function () {
+      done();
+    }).catch(function (err) {
+      done(err);
+    });
   });
 
   it('invalid non existing', function (done) {
-    helpers.getUser(helpers.sha1('foo'))
-      .then(function (res) {
-        assert(res.statusCode == 404, res.statusCode + ' status');
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
+    helpers.requestSearchUser(helpers.sha1('foo'), 404, function (err, res) {
+      helpers.expectSuccess(err, res);
+      done();
+    });
   });
 
   it('invalid unhashed', function (done) {
-    helpers.getUser('foo')
-      .then(function (res) {
-        assert(res.statusCode == 400, res.statusCode + ' status');
-        done();
-      })
-      .catch(function (err) {
-        done(err);
-      });
+    helpers.requestSearchUser('foo', 400, function (err, res) {
+      helpers.expectErrorCode('invalid.username', err, res);
+      done();
+    });
   });
 
   it('valid existing', function (done) {
-    helpers.getUser(helpers.sha1('bar'))
-      .then(function (res) {
-        assert(res.statusCode == 200, res.statusCode + ' status');
-        assert(res.body.username == helpers.sha1('bar'), 'invalid username');
-        assert(res.body.avatar, 'missing avatar');
-        assert(res.body.avatar.eyes, 'missing avatar eyes');
-        assert(res.body.avatar.nose, 'missing avatar nose');
-        assert(res.body.avatar.mouth, 'missing avatar mouth');
-        assert(res.body.avatar.color, 'missing avatar color');
-        assert(res.body.key, 'missing key');
-        assert(res.body.signature, 'missing signature');
-        assert(res.body.date, 'missing date');
-        assert(res.body.validity, 'missing validity');
+    var username = helpers.sha1('bar');
+    helpers.getDbUser(username).then(function (user) {
+      helpers.requestSearchUser(username, 200, function (err, res) {
+        helpers.expectSuccess(err, res);
+        helpers.expectUserBody(err, res, user);
         done();
-      })
-      .catch(function (err) {
-        done(err);
       });
+    }).catch(function (err) {
+      done(err);
+    });
   });
 });

@@ -1,27 +1,43 @@
-var assert = require('assert');
+var database = require('../database');
 var helpers = require('./helpers');
+var chai = require('chai');
+var expect = chai.expect;
 
-/*
 describe('update', function () {
-  describe('user', function () {
-    it('existing', function () {
-      //TODO
-    });
-
-    it('non existing', function () {
-      //TODO
+  beforeEach(function (done) {
+    database.flushdb().then(function () {
+      done();
+    }).catch(function (err) {
+      done(err);
     });
   });
 
-  describe('key', function () {
-    it('diffrent key', function () {
-      //TODO
+  it('existing user', function () {
+    var user = helpers.dummyUser();
+    helpers.createDbUser(user).then(function () {
+      user.avatar.eyes = 'eyes3';
+      user.date = helpers.currentDate();
+
+      helpers.requestUpdateUser(user, 201, function (err, res) {
+        helpers.expectSuccess(err, res);
+        var updatedUser = helpers.getDbUser(user.username);
+        expect(user.avatar.eyes).to.eql(updatedUser.avatar.eyes, 'eyes');
+      });
     });
   });
 
-  describe('date', function () {
-    it('older date', function () {
-      //TODO
+  it('non existing user', function () {
+    var user = helpers.dummyUser();
+    helpers.requestUpdateUser(user, 404, function (err, res) {
+      helpers.expectSuccess(err, res);
     });
   });
-});*/
+
+  /*it('existing user with diffrent key', function () {
+
+  });
+
+  it('existing user with date older than in database', function () {
+
+  });*/
+});

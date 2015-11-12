@@ -1,12 +1,16 @@
 var crypto = require('crypto');
+var chai = require('chai');
+var faker = require('faker');
+var expect = chai.expect;
 var ursa = require('ursa');
 var config = require('config');
 var moment = require('moment');
 var request = require('supertest');
-var Promise = require('bluebird');
 
 var app = require('../app');
 var database = require('../database');
+
+faker.seed(100);
 
 function generateKey(keySize) {
   var keys = ursa.generatePrivateKey(keySize || 1024);
@@ -34,22 +38,10 @@ function sign(obj, key) {
 
 module.exports.sign = sign;
 
-function promiseRequest(request) {
-  return new Promise(function (resolve, reject) {
-    request.end(function (err, res) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res);
-      }
-    });
-  });
-}
-
 module.exports.dummyUser = function (username, key, eyes, nose, mouth, color, validity, date) {
   var key = (key ? key : generateKey());
   return signRequest({
-    username: username || sha1('foobar'),
+    username: username || sha1(faker.internet.userName()),
     avatar: {
       eyes: eyes || 'eyes1',
       nose: nose || 'nose2',
@@ -58,20 +50,26 @@ module.exports.dummyUser = function (username, key, eyes, nose, mouth, color, va
     },
     key: key.public,
     validity: validity || 60,
-    date: date || moment().utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+    date: date || module.exports.currentDate(),
   }, key);
+};
+
+module.exports.currentDate = function () {
+  return moment().utc().format('YYYY-MM-DDTHH:mm:ssZ');
 };
 
 module.exports.createDbUser = function (user) {
   return database.set(user.username, JSON.stringify(user));
 };
 
-module.exports.deleteDbUser = function (username) {
-  return database.del(username);
+module.exports.getDbUser = function (username) {
+  return database.get(username).then(function (user) {
+    return JSON.parse(user);
+  });
 };
 
-module.exports.deleteAllDbUsers = function () {
-  return database.flushdb();
+module.exports.deleteDbUser = function (username) {
+  return database.del(username);
 };
 
 function signRequest(req, key) {
@@ -81,18 +79,63 @@ function signRequest(req, key) {
 
 module.exports.signRequest = signRequest;
 
-module.exports.createUser = function (body) {
-  return promiseRequest(
-    request(app)
-      .post('/api/users/')
-      .send(body)
-  );
+module.exports.requestSearchUser = function (username, statusCode, callback) {
+  return request(app)
+    .get('/api/users?username=' + username)
+    .send()
+    .expect(statusCode)
+    .end(callback);
 };
 
-module.exports.getUser = function (username) {
-  return promiseRequest(
-    request(app)
-      .get('/api/users?username=' + username)
-      .send()
-  );
+module.exports.requestCreateUser = function (body, statusCode, callback) {
+  return request(app)
+    .post('/api/users/')
+    .send(body)
+    .expect(statusCode)
+    .end(callback);
+};
+
+module.exports.requestUpdateUser = function (body, statusCode, callback) {
+  return request(app)
+    .put('/api/users/')
+    .send(body)
+    .expect(statusCode)
+    .end(callback);
+};
+
+module.exports.requestDeleteUser = function (body, statusCode, callback) {
+  return request(app)
+    .delete('/api/users/')
+    .send(body)
+    .expect(statusCode)
+    .end(callback);
+};
+
+module.exports.expectSuccess = function (err, res) {
+  expect(err).to.be.a('null', 'err');
+  expect(res).to.be.an('object', 'res');
+  expect(res.body).to.be.an('object', 'body');
+  expect(res.body.code).to.be.an('undefined', 'body.code');
+};
+
+module.exports.expectErrorCode = function (code, err, res) {
+  expect(err).to.be.a('null', 'err');
+  expect(res).to.be.an('object', 'res');
+  expect(res.body).to.be.an('object', 'body');
+  expect(res.body.code).to.be.an('string', 'body.code');
+  expect(res.body.code).to.eql(code, 'body.code');
+};
+
+module.exports.expectUserBody = function (err, res, user) {
+  expect(res.body.username).to.be.a('string', 'username');
+  expect(res.body.avatar).to.be.an('object', 'avatar');
+  expect(res.body.avatar.eyes).to.be.a('string', 'avatar.eyes');
+  expect(res.body.avatar.nose).to.be.a('string', 'avatar.nose');
+  expect(res.body.avatar.mouth).to.be.a('string', 'avatar.mouth');
+  expect(res.body.avatar.color).to.be.a('string', 'avatar.color');
+  expect(res.body.key).to.be.a('string', 'key');
+  expect(res.body.signature).to.be.a('string', 'signature');
+  expect(res.body.date).to.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{2}:\d{2}$/, 'date');
+  expect(res.body.validity).to.be.a('number', 'validity');
+  expect(res.body).to.eql(user, 'body');
 };
