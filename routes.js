@@ -32,7 +32,11 @@ router.delete('/', function (req, res, next) {
         return;
       }
 
+      user = JSON.parse(user);
+
       if(user.key != req.body.key) {
+        console.log(user.key);
+        console.log(req.body.key);
         next(new errors.ParamError('wrong.key'));
         return;
       }
@@ -58,6 +62,8 @@ router.put('/', function (req, res, next) {
         res.status(404).end();
         return;
       }
+
+      user = JSON.parse(user);
 
       if(user.key != req.body.key) {
         next(new errors.ParamError('wrong.key'));

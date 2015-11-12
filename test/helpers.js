@@ -73,6 +73,7 @@ module.exports.deleteDbUser = function (username) {
 };
 
 function signRequest(req, key) {
+  delete req.signature;
   req.signature = sign(req, key);
   return req;
 };
@@ -112,10 +113,10 @@ module.exports.requestDeleteUser = function (body, statusCode, callback) {
 };
 
 module.exports.expectSuccess = function (err, res) {
-  expect(err).to.be.a('null', 'err');
   expect(res).to.be.an('object', 'res');
   expect(res.body).to.be.an('object', 'body');
   expect(res.body.code).to.be.an('undefined', 'body.code');
+  expect(err).to.be.a('null', 'err');
 };
 
 module.exports.expectErrorCode = function (code, err, res) {

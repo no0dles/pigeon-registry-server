@@ -12,24 +12,30 @@ describe('update', function () {
     });
   });
 
-  it('existing user', function () {
-    var user = helpers.dummyUser();
+  it('existing user', function (done) {
+    var key = helpers.generateKey();
+    var user = helpers.dummyUser(helpers.sha1('fritz'), key);
+
     helpers.createDbUser(user).then(function () {
       user.avatar.eyes = 'eyes3';
       user.date = helpers.currentDate();
+      user = helpers.signRequest(user, key);
 
       helpers.requestUpdateUser(user, 201, function (err, res) {
         helpers.expectSuccess(err, res);
-        var updatedUser = helpers.getDbUser(user.username);
-        expect(user.avatar.eyes).to.eql(updatedUser.avatar.eyes, 'eyes');
+        helpers.getDbUser(user.username).then(function (updatedUser) {
+          expect(user.avatar.eyes).to.eql(updatedUser.avatar.eyes, 'eyes');
+          done();
+        });
       });
     });
   });
 
-  it('non existing user', function () {
+  it('non existing user', function (done) {
     var user = helpers.dummyUser();
     helpers.requestUpdateUser(user, 404, function (err, res) {
       helpers.expectSuccess(err, res);
+      done();
     });
   });
 
