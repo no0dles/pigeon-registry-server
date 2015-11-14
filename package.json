@@ -15,7 +15,8 @@
     "redis": "^2.3.0",
     "ursa": "^0.9.1",
     "validator": "^4.2.1",
-    "winston": "^2.1.0"
+    "winston": "^2.1.0",
+    "winston-papertrail": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.4.1",
