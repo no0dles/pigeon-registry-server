@@ -11,10 +11,16 @@ var log = require('./log');
 
 var app = express();
 
+
 app.log = log;
 
 app.set('address', process.env['OPENSHIFT_NODEJS_IP'] || config.get('express.address'));
 app.set('port', process.env['OPENSHIFT_NODEJS_PORT'] || config.get('express.port'));
+
+app.set('trust proxy', function (ip) {
+  if (ip === process.env['OPENSHIFT_NODEJS_IP']) return true;
+  else return false;
+});
 
 app.use(morgan("combined", { "stream": log.stream }));
 app.use(bodyParser.json());

@@ -3,6 +3,7 @@ var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
 var push = require('git-push');
 var sequence = require('run-sequence');
+var pages = require('gulp-gh-pages');
 
 require('gulp-release-tasks')(gulp);
 
@@ -35,6 +36,11 @@ gulp.task('deploy', function(done){
 
 gulp.task('release', function (done) {
   sequence('test', 'tag', 'deploy', done);
+});
+
+gulp.task('update-docs', function() {
+  return gulp.src('./docs/**/*')
+    .pipe(pages());
 });
 
 gulp.task('default', ['serve']);
