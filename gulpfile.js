@@ -32,12 +32,8 @@ gulp.task('deploy', function(cb){
   })
 });
 
-gulp.task('release-patch', function (done) {
-  sequence('tag', 'deploy', done);
-});
-
-gulp.task('release-minor', function (done) {
-  sequence('tag --minor', 'deploy', done);
+gulp.task('release', function (done) {
+  sequence('test', 'tag', 'deploy', done);
 });
 
 gulp.task('default', ['serve']);
