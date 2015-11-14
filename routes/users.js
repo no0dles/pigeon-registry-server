@@ -1,9 +1,9 @@
 var express = require('express');
 var moment = require('moment');
 
-var middlewares = require('./middlewares');
-var errors = require('./errors');
-var db = require('./database');
+var middlewares = require('./../middlewares');
+var errors = require('./../errors');
+var db = require('./../database');
 
 var router = express.Router();
 

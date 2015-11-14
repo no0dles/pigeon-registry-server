@@ -3,7 +3,9 @@ var bodyParser = require('body-parser');
 var config = require('config');
 var morgan = require("morgan");
 
-var routes = require('./routes');
+var users = require('./routes/users');
+var versions = require('./routes/versions');
+
 var errors = require('./errors');
 var log = require('./log');
 
@@ -17,7 +19,8 @@ app.set('port', process.env['OPENSHIFT_NODEJS_PORT'] || config.get('express.port
 app.use(morgan("combined", { "stream": log.stream }));
 app.use(bodyParser.json());
 
-app.use('/api/users', routes);
+app.use('/api/users', users);
+app.use('/api/versions', versions);
 
 app.use(function (req, res) {
   res.status(404).end();
