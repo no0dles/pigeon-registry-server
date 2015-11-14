@@ -1,1 +1,0 @@
-# Pigeon Registry Server Documentation
