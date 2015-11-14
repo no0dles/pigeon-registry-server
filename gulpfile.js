@@ -3,6 +3,7 @@ var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
 var git = require('gulp-git');
 var bump = require('gulp-bump');
+var push = require('git-push');
 
 gulp.task('serve', function () {
   nodemon({
@@ -38,10 +39,18 @@ gulp.task('bump-major', function(){
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('deploy', function(){
-  git.push('openshift', 'master', function (err) {
+gulp.task('deploy', function(cb){
+  /*git.push('openshift', 'master', function (err) {
     if (err) throw err;
-  });
+  });*/
+
+  push('./', {
+    name: 'openshift',
+    url: 'ssh://56438a240c1e6629bb000047@registry-nodepigeon.rhcloud.com/~/git/registry.git/',
+    branch: 'master'}, function () {
+    console.log('done');
+    cb()
+  })
 });
 
 gulp.task('default', ['serve']);
