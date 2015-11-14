@@ -4,7 +4,8 @@ var config = require('config');
 var morgan = require("morgan");
 
 var users = require('./routes/users');
-var versions = require('./routes/versions');
+var version = require('./routes/version');
+var health = require('./routes/health');
 
 var errors = require('./errors');
 var log = require('./log');
@@ -26,7 +27,8 @@ app.use(morgan("combined", { "stream": log.stream }));
 app.use(bodyParser.json());
 
 app.use('/api/users', users);
-app.use('/api/versions', versions);
+app.use('/api/version', version);
+app.use('/api/health', health);
 
 app.use(function (req, res) {
   res.status(404).end();

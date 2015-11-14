@@ -25,6 +25,10 @@ router.get('/', middlewares.checkUsername, function (req, res, next) {
 router.all('*', middlewares.checkSignature);
 
 router.delete('/', function (req, res, next) {
+  if(!req.body.delete) {
+    return next(new errors.ParamError('invalid.delete'));
+  }
+
   db.get(req.body.username)
     .then(function (user) {
       if(!user) {
@@ -35,13 +39,9 @@ router.delete('/', function (req, res, next) {
       user = JSON.parse(user);
 
       if(user.key != req.body.key) {
-        console.log(user.key);
-        console.log(req.body.key);
         next(new errors.ParamError('wrong.key'));
         return;
       }
-
-      //TODO: add delete flag
 
       return db.del(req.body.username)
         .then(function () {

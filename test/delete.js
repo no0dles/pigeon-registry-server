@@ -11,8 +11,13 @@ describe('delete', function () {
   });
 
   it('existing user', function (done) {
-    var user = helpers.dummyUser();
+    var key = helpers.generateKey();
+    var user = helpers.dummyUser(helpers.sha1('foo'), key);
+
     helpers.createDbUser(user).then(function () {
+      user.delete = true;
+      user = helpers.signRequest(user, key);
+
       helpers.requestDeleteUser(user, 201, function (err, res) {
         helpers.expectSuccess(err, res);
         done();
@@ -20,8 +25,22 @@ describe('delete', function () {
     });
   });
 
-  it('non existing user', function (done) {
+  it('without flag', function (done) {
     var user = helpers.dummyUser();
+    helpers.createDbUser(user).then(function () {
+      helpers.requestDeleteUser(user, 400, function (err, res) {
+        helpers.expectErrorCode('invalid.delete', err, res);
+        done();
+      });
+    });
+  });
+
+  it('non existing user', function (done) {
+    var key = helpers.generateKey();
+    var user = helpers.dummyUser(helpers.sha1('foo'), key);
+    user.delete = true;
+    user = helpers.signRequest(user, key);
+
     helpers.requestDeleteUser(user, 404, function (err, res) {
       helpers.expectSuccess(err, res);
       done();
