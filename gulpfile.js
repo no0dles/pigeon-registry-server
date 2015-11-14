@@ -1,9 +1,10 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var mocha = require('gulp-mocha');
-var git = require('gulp-git');
-var bump = require('gulp-bump');
 var push = require('git-push');
+var sequence = require('run-sequence');
+
+require('gulp-release-tasks')(gulp);
 
 gulp.task('serve', function () {
   nodemon({
@@ -21,29 +22,7 @@ gulp.task('test', function () {
     .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('bump-patch', function(){
-  gulp.src(['./package.json'])
-    .pipe(bump({type:'patch'}))
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('bump-minor', function(){
-  gulp.src(['./package.json'])
-    .pipe(bump({type:'minor'}))
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('bump-major', function(){
-  gulp.src(['./package.json'])
-    .pipe(bump({type:'major'}))
-    .pipe(gulp.dest('./'));
-});
-
 gulp.task('deploy', function(cb){
-  /*git.push('openshift', 'master', function (err) {
-    if (err) throw err;
-  });*/
-
   push('./', {
     name: 'openshift',
     url: 'ssh://56438a240c1e6629bb000047@registry-nodepigeon.rhcloud.com/~/git/registry.git/',
@@ -51,6 +30,14 @@ gulp.task('deploy', function(cb){
     console.log('done');
     cb()
   })
+});
+
+gulp.task('release-patch', function (done) {
+  sequence('tag', 'deploy', done);
+});
+
+gulp.task('release-minor', function (done) {
+  sequence('tag --minor', 'deploy', done);
 });
 
 gulp.task('default', ['serve']);
