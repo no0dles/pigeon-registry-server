@@ -2,6 +2,8 @@ var logentries = require('le_node');
 var winston = require('winston');
 var config = require('config');
 
+require('winston-papertrail').Papertrail;
+
 var logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
