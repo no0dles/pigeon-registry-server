@@ -7,14 +7,15 @@ var sequence = require('run-sequence');
 require('gulp-release-tasks')(gulp);
 
 gulp.task('serve', function () {
-  nodemon({
+  var opts = {
     script: 'index.js',
     ext: 'js',
     env: {
       'NODE_ENV': 'development'
     }
-  })
-  .on('restart', []);
+  };
+
+  nodemon(opts).on('restart', []);
 });
 
 gulp.task('test', function () {
@@ -22,14 +23,14 @@ gulp.task('test', function () {
     .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('deploy', function(cb){
-  push('./', {
+gulp.task('deploy', function(done){
+  var opts = {
     name: 'openshift',
     url: 'ssh://56438a240c1e6629bb000047@registry-nodepigeon.rhcloud.com/~/git/registry.git/',
-    branch: 'master'}, function () {
-    console.log('done');
-    cb()
-  })
+    branch: 'master'
+  };
+
+  push('./', opts, done);
 });
 
 gulp.task('release', function (done) {
