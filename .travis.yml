@@ -13,13 +13,3 @@ script:
 
 notifications:
   email: false
-
-deploy:
-  provider: openshift
-  user: pascal.bertschi@hotmail.com
-  password:
-    secure: mTLfhcaKiEAY62LY2xHmvhhPVex4aZ1OOlfSkwYmByEw6B0tHCWjZDAN3kxRx0UrAjGL/8Lh7Z3CrtxN/DTRDY+IXAVG1Jq+Md/8UyEJk/+SpmJ+RfgPC0qoNZo4PPTjGovpyvqD3hJIYwiFvh2JhboD8002LqJ86F4vS0TYct2WUcWy9Yl3lW1t5xMh8zlaP4u41ibuQqZd/pMZ22XH/5oKF9EP0JmArz/ZSCH0ICKEQHTqMy+079Vcc7t4XDqQlVGCctruWE7MmbrQPAV41SWkIb1J7N91ar8XrIXTDsvUSyiSC9eTOMlkCNtbEJJ8GfMHEUKFXaDMl3hwl5vDEP2KAkH7YYQ0qnPei1LMJ3HwzYebXtbQAeHOWixncrmW4k2O6Clwmw0YVPhDbjteA28+AF+AzD4U6kz5SG/xr3uBMj0fM7NLTLlzdpfLnxsoBZWhqDTR+I3cn3bwRLi07aoTrAuXy4fbuqBX8txO2uQUMPfeAPU/Zt9dMRdokc4JiEN5jyuWjLcAwd0IJQtqnN2wc9gvVWBzAZ5FUHDK8hFnFTEX0ubBAfvglfnvDBykEExBgxpi2TAVPXqhwlWct+3jTKjtCQCxQYGe+Pk8KnXTAoZoPT5a+6e1gS+3XmTfunIFfABGBCZBG9XbjrD7xWc579gyIqtvAwoh2YbDLDo=
-  app: registry
-  domain: nodepigeon
-  on:
-    repo: no0dles/pigeon-registry-server

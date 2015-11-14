@@ -1,6 +1,4 @@
-var logentries = require('le_node');
 var winston = require('winston');
-var config = require('config');
 
 require('winston-papertrail').Papertrail;
 
@@ -19,15 +17,6 @@ var logger = new winston.Logger({
   ],
   exitOnError: false
 });
-
-var token = process.env.LE_TOKEN || config.get('logentries.token');
-if(token) {
-  logger.transports.add(
-    new winston.transports.Logentries({
-      token: token
-    })
-  );
-}
 
 logger.stream = {
   write: function(message, encoding){

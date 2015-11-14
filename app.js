@@ -25,12 +25,12 @@ app.use(function (req, res) {
 
 app.use(function(err, req, res, next) {
   if(err instanceof errors.ParamError) {
-    app.log.warn(err);
+    app.log.warn(err.message);
     res.status(400).json({
       code: err.message
     });
   } else {
-    app.log.error(err);
+    app.log.error(err.stack);
     res.status(500).json({
        code: 'server.error'
     });
