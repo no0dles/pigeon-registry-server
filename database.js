@@ -1,11 +1,16 @@
 var config = require('config');
 var redis = require('redis');
 var Promise = require('bluebird');
+var log = require('./log');
 
 var client = redis.createClient({
   host: process.env['OPENSHIFT_REDIS_HOST'] || config.get('redis.host'),
   port: process.env['OPENSHIFT_REDIS_PORT'] || config.get('redis.port'),
   auth_pass: process.env['REDIS_PASSWORD'] || config.get('redis.auth')
+});
+
+client.on("error", function (err) {
+  log.error(err.stack);
 });
 
 module.exports.redis = redis;

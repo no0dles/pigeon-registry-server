@@ -1,6 +1,6 @@
 var config = require('config');
 var moment = require('moment');
-var ursa = require('ursa');
+var NodeRSA = require('node-rsa');
 
 var validator = require('./validator');
 var errors = require('./errors');
@@ -86,12 +86,12 @@ module.exports.checkUserBody = function (req, res, next) {
 };
 
 module.exports.checkUserKey = function (req, res, next) {
-  var key = ursa.coerceKey(req.body.key);
+  var key = new NodeRSA(req.body.key);
 
-  if(!ursa.isPublicKey(key))
+  if(!key.isPublic())
     return next(new errors.ParamError('invalid.key.type'));
 
-  if(key.getModulus().length < 128)
+  if(key.getKeySize() < 512)
     return next(new errors.ParamError('invalid.key.size'));
 
   return next();

@@ -37,7 +37,7 @@ describe('delete', function () {
 
   it('non existing user', function (done) {
     var key = helpers.generateKey();
-    var user = helpers.dummyUser(helpers.sha1('foo'), key);
+    var user = helpers.dummyUser(helpers.sha1('notexisting'), key);
     user.delete = true;
     user = helpers.signRequest(user, key);
 

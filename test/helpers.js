@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var chai = require('chai');
 var faker = require('faker');
 var expect = chai.expect;
-var ursa = require('ursa');
+var NodeRSA = require('node-rsa');
 var config = require('config');
 var moment = require('moment');
 var request = require('supertest');
@@ -13,10 +13,10 @@ var database = require('../database');
 faker.seed(100);
 
 function generateKey(keySize) {
-  var keys = ursa.generatePrivateKey(keySize || 1024);
+  var key = new NodeRSA({b: keySize || 1024});
   return {
-    'public': keys.toPublicPem('binary'),
-    'private': keys.toPrivatePem('binary')
+    'public': key.exportKey('public'),
+    'private': key.exportKey('private')
   };
 };
 
